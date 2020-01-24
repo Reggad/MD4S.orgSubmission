@@ -23,4 +23,11 @@ WHERE r.role_name = "IT";
 SELECT user_full_name
 FROM tbl_user AS u
 LEFT JOIN tbl_user_role as ur ON u.user_id = ur.user_id
-WHERE ur.role_id IS NULL; 
+WHERE ur.role_id IS NULL;
+
+SELECT user_full_name
+FROM tbl_user AS U
+JOIN (SELECT user_id, role_id, COUNT(*) AS occurrences
+FROM tbl_user_role
+GROUP BY user_id, role_id
+HAVING COUNT(*) > 1) as dup ON u.user_id = dup.user_id;
